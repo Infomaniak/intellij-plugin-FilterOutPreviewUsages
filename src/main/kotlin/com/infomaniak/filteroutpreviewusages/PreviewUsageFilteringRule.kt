@@ -1,7 +1,8 @@
 package com.infomaniak.filteroutpreviewusages
 
-import com.intellij.openapi.application.runReadAction
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Computable
 import com.intellij.usages.Usage
 import com.intellij.usages.UsageTarget
 import com.intellij.usages.rules.PsiElementUsage
@@ -31,6 +32,10 @@ object PreviewUsageFilteringRule : UsageFilteringRule {
     override fun isVisible(usage: Usage, targets: Array<out UsageTarget>): Boolean {
         val element = (usage as? PsiElementUsage)?.element ?: return true
 
-        return !runReadAction { PreviewUsageDetector.isInsidePreviewDeclaration(element) }
+        val isPreviewUsage = ApplicationManager.getApplication().runReadAction(
+            Computable { PreviewUsageDetector.isInsidePreviewDeclaration(element) }
+        )
+
+        return !isPreviewUsage
     }
 }
