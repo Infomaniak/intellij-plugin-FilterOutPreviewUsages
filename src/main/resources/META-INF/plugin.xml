@@ -1,26 +1,41 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.infomaniak.FilterOutPreviewUsages</id>
+    <name>Filter Out Preview Usages</name>
+    <vendor url="https://www.infomaniak.com">Infomaniak</vendor>
 
-    <!-- Public plugin name should be written in Title Case.
-     Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>FilterOutPreviewUsages</name>
-
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
-
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        Example of a plugin that is ready to work in a distributed environment.<br>
-        <em>Plugin is supposed to be installed into both frontend and backend IDE,
-        the set of features to be available is determined by their registration in either backend or frontend-specific XML descriptor files</em>
+        Adds a <b>Show Preview Usages</b> filter toggle to the Find Usages tool window and to the Show Usages popup
+        (<code>Cmd+B</code> / <code>Ctrl+B</code>), next to the existing <i>Show Import Statements</i> and
+        <i>Show Generated Code</i> toggles.<br/><br/>
+        When the toggle is off, every usage located inside a declaration annotated with a preview annotation
+        (<code>@Preview</code>, <code>@PreviewScreenSizes</code>, custom multipreview annotations, ...) is hidden,
+        which makes it much easier to see where a Composable is really used.
     ]]></description>
 
-    <content>
-        <module name="FilterOutPreviewUsages.shared" loading="required"/>
-        <module name="FilterOutPreviewUsages.frontend"/>
-        <module name="FilterOutPreviewUsages.backend"/>
-    </content>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.kotlin</depends>
+
+    <resource-bundle>messages.FilterOutPreviewUsagesBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <usageFilteringRuleProvider
+                implementation="com.infomaniak.filteroutpreviewusages.PreviewUsageFilteringRuleProvider"/>
+    </extensions>
+
+    <!-- Only the Kotlin PSI is used, no Analysis API, so both the K1 and the K2 modes are supported. -->
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK1="true" supportsK2="true"/>
+    </extensions>
+
+    <actions>
+        <!-- The platform turns this action into the toggle shown in the usages filter toolbar,
+             see com.intellij.usages.impl.UsageFilteringRuleActions. It must be an EmptyAction. -->
+        <action id="FilterOutPreviewUsages.ShowPreviewUsages"
+                class="com.intellij.openapi.actionSystem.EmptyAction"
+                icon="com.intellij.icons.AllIcons.Actions.Preview">
+            <!-- Only there so that a shortcut can be assigned from Settings | Keymap. -->
+            <add-to-group group-id="UsageFilteringActionGroup" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
