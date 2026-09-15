@@ -1,274 +1,63 @@
-# FilterOutPreviewUsages
+# Filter Out Preview Usages
 
-[![Twitter Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
-[![Developers Forum](https://img.shields.io/badge/JetBrains%20Platform-Join-blue)][jb:forum]
+IntelliJ Platform plugin (Android Studio / IntelliJ IDEA) that adds a **Show Preview Usages** toggle to the usages
+filter toolbar, next to the built-in *Show Import Statements* and *Show Generated Code* toggles.
 
-## Connect repository to GitHub
+When the toggle is turned off, every usage located inside a declaration annotated with a preview annotation is hidden.
+This makes `Cmd+B` / `Ctrl+B` (and Find Usages) actually useful on a Composable that is, of course, always used by its
+own `@Preview`.
 
-1. [Create a new repository](https://github.com/new) on GitHub.
-2. Run the following commands to initialize and push this project to the repository created in step 1:
+## What is considered a preview
+
+A usage is hidden when one of its enclosing Kotlin declarations (function, class/object or property) carries an
+annotation whose short name contains `preview`, case-insensitively:
+
+- `@Preview` (Android Compose and Compose Multiplatform)
+- Google multipreview annotations such as `@PreviewScreenSizes`, `@PreviewLightDark`, `@PreviewFontScale`
+- your own multipreview annotations, e.g. `@MyAppThemePreviews`
+
+`@PreviewParameter` / `@PreviewParameterProvider` are explicitly excluded, since they do not mark a preview declaration.
+
+The matching is deliberately name based (no resolution, no index access), so it stays fast and works no matter which
+preview library is used.
+
+## Where the toggle shows up
+
+The platform builds the filter toolbar from the registered filtering rules, so the toggle appears in:
+
+- the **Find Usages** tool window toolbar (funnel/filter actions)
+- the **Show Usages** popup (`Cmd+B` on a declaration), under the filter button
+
+Its state is persisted between sessions like the other usage filters. A keyboard shortcut can be assigned in
+**Settings | Keymap | Other | Show Preview Usages**.
+
+## Building and running
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/<username>/<repository>.git
-git push -u origin main
+./gradlew build          # compile, run unit tests and build the plugin distribution
+./gradlew runIde         # start a sandbox IDE with the plugin installed
+./gradlew verifyPlugin   # run the IntelliJ Plugin Verifier
 ```
 
-3. Configure publishing [secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) in the GitHub
-   repository settings:
+The distribution to share with your colleagues is produced by:
 
-| Secret                 | Description                                                                                                |
-|------------------------|------------------------------------------------------------------------------------------------------------|
-| `PUBLISH_TOKEN`        | JetBrains Marketplace token — [generate here](https://plugins.jetbrains.com/author/me/tokens)              |
-| `CERTIFICATE_CHAIN`    | Plugin signing certificate chain ([docs](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html)) |
-| `PRIVATE_KEY`          | Plugin signing private key                                                                                 |
-| `PRIVATE_KEY_PASSWORD` | Password for the private key                                                                               |
-
-## Overview
-
-This repository implements a modular IntelliJ Platform plugin.
-It uses content modules as a unit of functionality that the plugin consists of.
-Content modules are split into:
-
-- `frontend` - UI code
-- `backend` - stateful business logic
-- `shared`
-
-Frontend communicates with the backend through RPC.
-
-This structure allows to:
-
-- separate UI code from business logic
-- implement features in a way they work natively in **[split mode][docs:remote-dev]** just like in the ordinary
-  monolithic IDE
-- keep the plugin code cleaner
-
-## Demo Functionality
-
-The sample plugin adds a `ModularPlugin` tool window with a chat-style UI implemented with the Swing framework.
-
-## Plugin structure
-
-A generated project contains the following content structure:
-
-```
-.
-├── .github/                GitHub Workflows, issue templates, and Dependabot configuration
-├── .run/                   Predefined Run/Debug Configurations
-├── backend/                Backend module – business logic
-│   ├── build.gradle.kts    Backend dependencies
-│   └── src/main/
-│       ├── kotlin/         Kotlin production sources
-│       └── resources/      FilterOutPreviewUsages.backend.xml
-├── frontend/               Frontend module – UI and presentation
-│   ├── build.gradle.kts    Frontend dependencies
-│   └── src/main/
-│       ├── kotlin/         Kotlin production sources
-│       └── resources/      FilterOutPreviewUsages.frontend.xml
-├── shared/                 Shared module – cross-boundary contracts
-│   ├── build.gradle.kts    Shared dependencies
-│   └── src/main/
-│       ├── kotlin/         Kotlin production sources
-│       └── resources/      FilterOutPreviewUsages.shared.xml
-├── gradle/
-│   ├── wrapper/            Gradle Wrapper
-│   └── libs.versions.toml  Version catalog
-├── src
-│   └── main
-│       └── resources/
-│           └── META-INF/   Plugin configuration file and logo
-├── .gitignore              Git ignoring rules
-├── build.gradle.kts        Root build – assembles the final plugin
-├── gradle.properties       Gradle configuration properties
-├── gradlew                 *nix Gradle Wrapper script
-├── gradlew.bat             Windows Gradle Wrapper script
-└── settings.gradle.kts     Gradle project settings
+```bash
+./gradlew buildPlugin
+# -> build/distributions/FilterOutPreviewUsages-<version>.zip
 ```
 
-> [!NOTE]
-> To use Java in your plugin, create the appropriate `/src/main/java` directory within the desired module.
+Install it in Android Studio via **Settings | Plugins | ⚙ | Install Plugin from Disk...**.
 
-The plugin logo is placed in `src/main/resources/META-INF/pluginIcon.svg`.
-See [Plugin Logo][docs:logo] for more information and logo requirements.
+## Compatibility
 
-### Module Layout
+Built against IntelliJ IDEA 2026.1 (branch 261) and declared compatible with builds 251 and newer, which covers
+Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is bundled in Android Studio.
 
-- `root project` assembles the final plugin, declares the main IntelliJ Platform dependency, enables split mode, and
-  includes the `shared`, `frontend`, and `backend` plugin modules in the final distribution.
-- `shared` contains contracts that both sides must understand: RPC interfaces, DTOs, serializers, and shared model
-  types. Put a cross-boundary API here.
-- `frontend` contains UI-only code and presentation logic: the tool window registration, Swing UI, view models, and the
-  frontend adapter that talks to the backend via RPC.
-- `backend` contains project-level services and business logic: access to project, file system, and external processes,
-  message creation, response generation, and the RPC implementation exposed to the frontend.
+## Implementation notes
 
-## Build script
-
-The root [build.gradle.kts][file:build.gradle.kts] assembles the final plugin and applies the following Gradle plugins:
-
-| Plugin                            | Description                                                                      |
-|-----------------------------------|----------------------------------------------------------------------------------|
-| `org.jetbrains.kotlin.jvm`        | Adds Kotlin support                                                              |
-| `org.jetbrains.changelog`         | Simplifies patching the [CHANGELOG.md][file:CHANGELOG.md] file                   |
-| `org.jetbrains.intellij.platform` | The [IntelliJ Platform Gradle Plugin][docs:intellij-platform-gradle-plugin-docs] |
-
-The `intellijPlatform` dependencies block selects the IDE to compile against:
-
-```kotlin
-intellijIdea("2025.3.5")
-```
-
-See [Target Versions][docs:target-version] for more information.
-
-The `intellijPlatform` dependencies block also contains a dependency on the platform testing framework:
-
-```kotlin
-testFramework(TestFrameworkType.Platform)
-```
-
-See [Testing][docs:testing] for more information
-
-## Plugin configuration files
-
-The root [plugin.xml][file:plugin.xml] file located in `src/main/resources/META-INF` provides general information about
-the plugin, its dependencies, and references the per-module plugin descriptors.
-
-Each module ships its own plugin descriptor in its `src/main/resources/` directory:
-
-- `FilterOutPreviewUsages.backend.xml` – registers backend extensions and services
-- `FilterOutPreviewUsages.frontend.xml` – registers frontend extensions and tool windows
-- `FilterOutPreviewUsages.shared.xml` – registers shared extensions and interfaces
-
-You can read more about plugin configuration files in the [Plugin Configuration File][docs:plugin.xml] section of our
-documentation.
-
-### Plugin ID and name
-
-Generated plugin ID and name may require adjustment.
-
-These values are generated based on _Group ID_ and _Artifact ID_ provided in the IDE Plugin wizard.
-It is recommended to review `<id>` and `<name>` elements in the plugin.xml file, and adjust them if needed.
-
-Please note that Gradle properties `rootProject.name` and `project.group` don't need to match the `<id>` and `<name>`
-elements.
-There is no IntelliJ Platform-related reason they should as they serve different functions.
-
-## Remote Development Ready Architecture
-
-The demo is intentionally split so that the UI stays frontend-only and the business logic stays backend-only.
-This ensures optimal UX in the remote development scenario where the IDE has separate frontend and backend processes.
-This is what we call **Split Mode**.
-
-A high-level overview of the plugin structure:
-
-- a UI for a chat with an AI assistant natively rendered in the frontend IDE in split mode
-- data transfer between the frontend and backend via RPC
-- RPC implementation in the backend IDE is capable of touching any backend entities and APIs like a file system
-
-A more detailed explanation of how it is implemented:
-
-1. The frontend registers the tool window and creates `ChatViewModel`.
-2. `ChatViewModel` depends on the frontend-facing `ChatRepositoryApi` abstraction instead of directly depending on
-   backend services.
-3. `FrontendChatRepositoryModel` implements that abstraction by calling the shared `ChatRepositoryRpcApi` and collecting
-   the backend message `Flow`.
-4. The shared module defines `ChatRepositoryRpcApi` plus the DTOs used to cross the RPC boundary.
-5. The backend registers `BackendRpcApiProvider`, which exposes `BackendChatRepositoryRpcApi` as the RPC implementation.
-6. `BackendChatRepositoryRpcApi` resolves the backend project from `ProjectId` and delegates to
-   `BackendChatRepositoryModel`.
-7. `BackendChatRepositoryModel` owns the mutable message list and the demo response generation logic.
-
-This separation keeps the frontend focused on rendering, local UI state, and interaction handling, while the backend
-owns project-scoped state and logic that should execute on the backend side in split mode.
-
-## Predefined Run/Debug configurations
-
-Within the default project structure, there is a `.run` directory provided containing predefined *Run/Debug
-configurations* that expose corresponding Gradle tasks:
-
-| Configuration name               | Description                                                                                                                                            |
-|----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Run IDE with Plugin (Frontend)   | Runs [`:runIdeFrontend`][docs:intellij-platform-gradle-plugin-runIde] IntelliJ Platform Gradle Plugin task. Use the *Debug* icon for plugin debugging. |
-| Run IDE with Plugin (Backend)    | Runs [`:runIdeBackend`][docs:intellij-platform-gradle-plugin-runIde] IntelliJ Platform Gradle Plugin task. Use the *Debug* icon for plugin debugging.  |
-| Run IDE with Plugin (Split Mode) | Runs both *Run IDE (Backend)* and *Run IDE (Frontend)* configurations simultaneously to launch the plugin in split mode.                               |
-
-> [!NOTE]
-> You can find the logs from the running task in the `idea.log` tab.
-
-## Publishing the plugin
-
-> [!TIP]
-> Make sure to follow all guidelines listed in [Publishing a Plugin][docs:publishing] to follow all recommended and
-required steps.
-
-Releasing a plugin to [JetBrains Marketplace](https://plugins.jetbrains.com) is a straightforward operation that uses
-the `publishPlugin` Gradle task provided by the [intellij-platform-gradle-plugin][gh:intellij-platform-gradle-plugin].
-
-You can also upload the plugin to the [JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/upload)
-manually via UI.
-
-## GitHub Integration
-
-### GitHub Actions
-
-The project includes [GitHub Actions][https://docs.github.com/en/actions] workflows for automated CI/CD:
-
-| Workflow                                 | Trigger        | Description                                                     |
-|------------------------------------------|----------------|-----------------------------------------------------------------|
-| [Build](.github/workflows/build.yml)     | Push / PR      | Builds, tests, and verifies the plugin; creates a draft release |
-| [Release](.github/workflows/release.yml) | GitHub Release | Publishes the plugin to JetBrains Marketplace                   |
-
-### GitHub issue templates
-
-The project includes GitHub issue templates:
-
-- [Bug Report](.github/ISSUE_TEMPLATE/bug-report.yml)
-- [Feature Request](.github/ISSUE_TEMPLATE/feature-request.yml)
-
-See [Syntax for issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms).
-
-### Dependabot
-
-[Dependabot configuration](.github/dependabot.yml) file enables tracking outdated or vulnerable dependencies.
-
-## Useful links
-
-- [IntelliJ Platform SDK Plugin SDK][docs]
-- [IntelliJ Platform Gradle Plugin Documentation][docs:intellij-platform-gradle-plugin-docs]
-- [IntelliJ Platform Explorer][jb:ipe]
-- [JetBrains Marketplace Quality Guidelines][jb:quality-guidelines]
-- [IntelliJ Platform UI Guidelines][jb:ui-guidelines]
-- [JetBrains Marketplace Paid Plugins][jb:paid-plugins]
-- [IntelliJ SDK Code Samples][gh:code-samples]
-- [Remote Development / Split Mode][docs:remote-dev]
-
-[docs]: https://plugins.jetbrains.com/docs/intellij
-[docs:logo]: https://plugins.jetbrains.com/docs/intellij/plugin-icon-file.html?from=IJPluginReadmeFile
-[docs:plugin.xml]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginReadmeFile
-[docs:publishing]: https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginReadmeFile
-[docs:remote-dev]: https://plugins.jetbrains.com/docs/intellij/plugin-content-modules.html?from=IJPluginReadmeFile
-[docs:target-version]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html?from=IJPluginReadmeFile#target-versions
-[docs:testing]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html?from=IJPluginReadmeFile#testing
-[docs:intellij-platform-gradle-plugin-docs]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html?from=IJPluginReadmeFile
-[docs:intellij-platform-gradle-plugin-runIde]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html?from=IJPluginReadmeFile#runIde
-[docs:intellij-platform-gradle-plugin-verifyPlugin]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html?from=IJPluginReadmeFile#verifyPlugin
-
-[file:build.gradle.kts]: ./build.gradle.kts
-[file:CHANGELOG.md]: ./CHANGELOG.md
-[file:gradle.properties]: ./gradle.properties
-[file:plugin.xml]: ./src/main/resources/META-INF/plugin.xml
-
-[gh:code-samples]: https://github.com/JetBrains/intellij-sdk-code-samples
-[gh:intellij-platform-gradle-plugin]: https://github.com/JetBrains/intellij-platform-gradle-plugin
-
-[gradle:lifecycle-tasks]: https://docs.gradle.org/current/userguide/java_plugin.html#lifecycle_tasks
-
-[jb:github]: https://github.com/JetBrains/.github/blob/main/profile/README.md
-[jb:forum]: https://platform.jetbrains.com/
-[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
-[jb:paid-plugins]: https://plugins.jetbrains.com/docs/marketplace/paid-plugins-marketplace.html
-[jb:ipe]: https://jb.gg/ipe
-[jb:ui-guidelines]: https://jetbrains.github.io/ui
+| File | Role |
+|------|------|
+| `PreviewAnnotationMatcher.kt` | Decides whether an annotation short name marks a preview. Pure logic, unit tested. |
+| `PreviewUsageDetector.kt` | Walks the PSI parents of a usage looking for an annotated declaration. |
+| `PreviewUsageFilteringRule.kt` | The `UsageFilteringRule` and its `UsageFilteringRuleProvider` extension. |
+| `META-INF/plugin.xml` | Registers the extension and the `EmptyAction` used as the toggle presentation. |
