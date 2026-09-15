@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Run IDE with Plugin (Split Mode)" type="CompoundRunConfigurationType"
+                   factoryName="Compound Run Configuration">
+        <toRun type="GradleRunConfiguration" name="Run IDE with Plugin (Backend)"/>
+        <toRun type="GradleRunConfiguration" name="Run IDE with Plugin (Frontend)"/>
+        <method v="2"/>
+    </configuration>
+</component>
