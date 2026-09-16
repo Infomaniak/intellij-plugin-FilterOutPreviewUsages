@@ -48,6 +48,15 @@ The distribution to share with a zip file is produced by:
 
 Install it in Android Studio via **Settings | Plugins | ⚙ | Install Plugin from Disk...**.
 
+## Releasing
+
+`CHANGELOG.md` is the single source of truth for the release notes. The section matching `pluginVersion` is rendered to
+HTML by the [gradle-changelog-plugin](https://github.com/JetBrains/gradle-changelog-plugin) and injected as
+`<change-notes>` in the generated `plugin.xml`, which is what the Marketplace displays in the update dialog.
+
+To cut a release, add a section named after the new version to `CHANGELOG.md`, bump `pluginVersion` in
+`gradle.properties`, then run `./gradlew buildPlugin`.
+
 ## Compatibility
 
 Built against IntelliJ IDEA 2026.1 (branch 261) and declared compatible with builds 251 and newer, which covers
@@ -66,12 +75,12 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 
 ### The icon
 
-The platform's *Show Import Statements* toggle is a serif `i`, echoing the `import` keyword as the editor renders it. The
-`Show Preview Usages` toggle follows the same idea one step further: it is a literal `@P`, so it echoes the `@Preview` annotation
-it filters out. The outlines are snapped to the pixel grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark`
-variant is provided.
+The platform's *Show Import Statements* toggle is a serif `i`, echoing the `import` keyword as the editor renders it.
+The `Show Preview Usages` toggle follows the same idea one step further: it is a literal `@P`, so it echoes the
+`@Preview` annotation it filters out. The outlines are snapped to the pixel grid (9px cap height, 1px stem) so they stay
+crisp at 16x16, and a `_dark` variant is provided.
 
-The plugin icon reuses the same idea: the `@P` sits inside a prohibition sign (ISO 7010 proportions: a red annulus, a white
-field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar is stroked twice, once in
-white and once in red, so it keeps a clean relief where it crosses the glyph instead of swallowing it. The icon carries its own
-white field, so it reads on light and dark themes alike and needs no `_dark` variant.
+The plugin icon reuses the same idea: the `@P` sits inside a prohibition sign (ISO 7010 proportions: a red annulus, a
+white field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar is stroked
+twice, once in white and once in red, so it keeps a clean relief where it crosses the glyph instead of swallowing it.
+The icon carries its own white field, so it reads on light and dark themes alike and needs no `_dark` variant.
