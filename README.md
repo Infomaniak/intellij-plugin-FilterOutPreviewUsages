@@ -7,6 +7,19 @@ When the toggle is turned off, every usage located inside a declaration annotate
 This makes `Cmd+B` / `Ctrl+B` (and Find Usages) actually useful on a Composable that is, of course, always used by its
 own `@Preview`.
 
+## In action
+
+`SuperCoolComponent` has four usages: two real ones in `MyFavoriteScreen`, and two that only exist to feed its
+`@Preview` functions.
+
+<img src="images/preview-no-popup.png" width="450" alt="A Composable used twice for real and twice by its previews"/>
+
+Toggling `Show Preview Usages` off drops the popup from four usages to the two that actually matter:
+
+| Toggle on                                                 | Toggle off                                                        |
+|-----------------------------------------------------------|-------------------------------------------------------------------|
+| ![All four usages are listed](images/preview-visible.png) | ![Only the two real usages are listed](images/preview-hidden.png) |
+
 ## What is considered a preview
 
 A usage is hidden when one of its enclosing Kotlin declarations (function, class/object or property) carries an
