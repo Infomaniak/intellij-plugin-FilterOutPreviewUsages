@@ -93,19 +93,6 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 | `icons/show*Usages*.svg`          | The toolbar icons: `@P` and `/*` traced from JetBrains Mono.                       |
 | `META-INF/pluginIcon.svg`         | The plugin icon: a filter funnel with a `+` badge.                                 |
 
-### The icons
+## Feedback
 
-The platform's *Show Import Statements* toggle is a serif `i`, echoing the `import` keyword as the editor renders it.
-The toggles here follow the same idea one step further: they are literally `@P` and `/*`, set in JetBrains Mono, the
-typeface the IDE uses in the editor, so each one echoes the syntax it filters out. The outlines are snapped to the pixel
-grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark` variant is provided for each.
-
-`/**` would be the exact KDoc opener, but it does not survive 16x16: three glyphs at the cap height of the other icons
-are 22px wide, and shrinking them to fit turns the asterisks into mush.
-
-The plugin icon steps away from the toolbar glyphs, because it has to stand for the plugin as a whole rather than for
-one filter: it is the universal filter funnel with a `+` badge, for "more usage filters". The walls are bowed and every
-corner, join and cap is rounded, so it stays soft instead of looking like a cut out triangle. It is hand drawn like the
-toolbar icons, so the plugin carries no third party icon licence. The bowl is filled white rather than left hollow, so
-the funnel keeps a body on dark themes and echoes the white of the badge, which also means the icon looks the same
-whatever the theme and needs no `_dark` variant.
+This is mostly vibe coded as a quick useful plugin, any feedback is appreciated. 
