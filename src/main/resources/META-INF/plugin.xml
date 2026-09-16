@@ -1,26 +1,29 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.infomaniak.FilterOutPreviewUsages</id>
-    <name>Filter Out Preview Usages</name>
+    <id>com.infomaniak.MoreUsageFilters</id>
+    <name>More Usage Filters</name>
     <vendor url="https://www.infomaniak.com">Infomaniak</vendor>
 
     <description><![CDATA[
-        Adds a <b>Show Preview Usages</b> filter toggle to the Find Usages tool window and to the Show Usages popup
+        Adds filter toggles to the Find Usages tool window and to the Show Usages popup
         (<code>Cmd+B</code> / <code>Ctrl+B</code>), next to the existing <i>Show Import Statements</i> and
         <i>Show Generated Code</i> toggles.<br/><br/>
-        When the toggle is off, every usage located inside a declaration annotated with a preview annotation
-        (<code>@Preview</code>, <code>@PreviewScreenSizes</code>, custom multipreview annotations, ...) is hidden,
-        which makes it much easier to see where a Composable is really used.
+        <b>Show Preview Usages</b> &mdash; when it is off, every usage located inside a declaration annotated with a
+        Compose preview annotation (<code>@Preview</code>, <code>@PreviewScreenSizes</code>, custom multipreview
+        annotations, ...) is hidden, which makes it much easier to see where a Composable is really used.<br/><br/>
+        <b>Show Comment Usages</b> &mdash; when it is off, every usage located inside a comment is hidden, which covers
+        the <code>[Link]</code> references of a KDoc, the <code>{@link ...}</code> of a JavaDoc, and the plain comments
+        that show up when Find Usages is asked to search in comments and strings.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.kotlin</depends>
 
-    <resource-bundle>messages.FilterOutPreviewUsagesBundle</resource-bundle>
+    <resource-bundle>messages.MoreUsageFiltersBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
         <usageFilteringRuleProvider
-                implementation="com.infomaniak.filteroutpreviewusages.PreviewUsageFilteringRuleProvider"/>
+                implementation="com.infomaniak.moreusagefilters.MoreUsageFiltersRuleProvider"/>
     </extensions>
 
     <!-- Only the Kotlin PSI is used, no Analysis API, so both the K1 and the K2 modes are supported. -->
@@ -29,12 +32,17 @@
     </extensions>
 
     <actions>
-        <!-- The platform turns this action into the toggle shown in the usages filter toolbar,
-             see com.intellij.usages.impl.UsageFilteringRuleActions. It must be an EmptyAction. -->
-        <action id="FilterOutPreviewUsages.ShowPreviewUsages"
+        <!-- The platform turns these actions into the toggles shown in the usages filter toolbar,
+             see com.intellij.usages.impl.UsageFilteringRuleActions. They must be EmptyActions.
+             They are added to the group only so that a shortcut can be assigned from Settings | Keymap. -->
+        <action id="MoreUsageFilters.ShowPreviewUsages"
                 class="com.intellij.openapi.actionSystem.EmptyAction"
                 icon="/icons/showPreviewUsages.svg">
-            <!-- Only there so that a shortcut can be assigned from Settings | Keymap. -->
+            <add-to-group group-id="UsageFilteringActionGroup" anchor="last"/>
+        </action>
+        <action id="MoreUsageFilters.ShowCommentUsages"
+                class="com.intellij.openapi.actionSystem.EmptyAction"
+                icon="/icons/showCommentUsages.svg">
             <add-to-group group-id="UsageFilteringActionGroup" anchor="last"/>
         </action>
     </actions>

@@ -1,4 +1,4 @@
-package com.infomaniak.filteroutpreviewusages
+package com.infomaniak.moreusagefilters
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parentsOfType

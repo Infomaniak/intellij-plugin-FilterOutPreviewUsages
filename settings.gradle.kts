@@ -15,7 +15,7 @@ plugins {
     id("org.jetbrains.intellij.platform.settings") version "2.19.0"
 }
 
-rootProject.name = "FilterOutPreviewUsages"
+rootProject.name = "MoreUsageFilters"
 
 dependencyResolutionManagement {
     repositories {

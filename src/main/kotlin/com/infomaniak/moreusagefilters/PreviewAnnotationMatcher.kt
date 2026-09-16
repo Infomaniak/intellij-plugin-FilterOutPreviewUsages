@@ -1,4 +1,4 @@
-package com.infomaniak.filteroutpreviewusages
+package com.infomaniak.moreusagefilters
 
 /**
  * Decides whether an annotation short name marks a declaration as a preview.

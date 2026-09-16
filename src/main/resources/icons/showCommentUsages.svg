@@ -1,0 +1,9 @@
+<!-- "/*" set in JetBrains Mono Medium (SIL Open Font License 1.1), the same typeface the IDE uses in the
+     editor, so the toggle echoes the comment syntax it filters out - the same idea as the "@P" icon of the
+     preview filter, and as the platform's "Show Import Statements" icon echoing the import keyword.
+     "/**" would be the exact KDoc opener but does not survive 16x16: three glyphs at the cap height of the
+     other icons are 22px wide, and shrinking them to fit turns the asterisks into mush.
+     Outlines are traced from the font, with the baseline snapped to the pixel grid to stay crisp at 16x16. -->
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1.38 12.36 5.74 0.77H7.02L2.66 12.36Z M10.10 9.74 9.20 9.11 10.02 7.94Q10.19 7.72 10.45 7.42Q10.71 7.12 10.95 6.88Q10.62 6.83 10.26 6.75Q9.89 6.66 9.67 6.57L8.33 6.08L8.70 5.05L10.04 5.55Q10.26 5.62 10.58 5.78Q10.91 5.93 11.19 6.11Q11.13 5.80 11.09 5.47Q11.05 5.14 11.05 4.88V3.36H12.14V4.88Q12.14 5.14 12.10 5.47Q12.06 5.80 11.99 6.11Q12.27 5.93 12.60 5.78Q12.93 5.62 13.15 5.55L14.49 5.05L14.86 6.08L13.52 6.57Q13.30 6.66 12.93 6.75Q12.57 6.83 12.24 6.88Q12.48 7.13 12.75 7.42Q13.01 7.72 13.17 7.94L13.99 9.11L13.09 9.74L12.27 8.57Q12.11 8.35 11.92 8.00Q11.73 7.66 11.60 7.34Q11.46 7.66 11.27 8.00Q11.08 8.35 10.92 8.57Z" fill="#6C707E"/>
+</svg>

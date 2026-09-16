@@ -1,11 +1,15 @@
-# Filter Out Preview Usages
+# More Usage Filters
 
-IntelliJ Platform plugin (Android Studio / IntelliJ IDEA) that adds a **Show Preview Usages** toggle to the usages
-filter toolbar, next to the built-in *Show Import Statements* and *Show Generated Code* toggles.
+IntelliJ Platform plugin (Android Studio / IntelliJ IDEA) that adds toggles to the usages filter toolbar, next to the
+built-in *Show Import Statements* and *Show Generated Code* ones:
 
-When the toggle is turned off, every usage located inside a declaration annotated with a preview annotation is hidden.
-This makes `Cmd+B` / `Ctrl+B` (and Find Usages) actually useful on a Composable that is, of course, always used by its
-own `@Preview`.
+| Toggle                   | When it is off, it hides                                                     |
+|--------------------------|------------------------------------------------------------------------------|
+| **Show Preview Usages**  | every usage located inside a declaration annotated with a preview annotation |
+| **Show Comment Usages**  | every usage located inside a comment, KDoc and JavaDoc first and foremost    |
+
+Together they make `Cmd+B` / `Ctrl+B` (and Find Usages) actually useful on a Composable that is, of course, always used
+by its own `@Preview` and mentioned in the KDoc of half the file.
 
 ## In action
 
@@ -34,15 +38,23 @@ annotation whose short name contains `preview`, case-insensitively:
 The matching is deliberately name based (no resolution, no index access), so it stays fast and works no matter which
 preview library is used.
 
-## Where the toggle shows up
+## What is considered a comment
 
-The platform builds the filter toolbar from the registered filtering rules, so the toggle appears in:
+Anything the PSI calls a comment, which is language agnostic:
+
+- KDoc, including the `[Link]` references that Find Usages reports
+- JavaDoc, including `{@link ...}`
+- block and line comments, which only show up when Find Usages is asked to search in comments and strings
+
+## Where the toggles show up
+
+The platform builds the filter toolbar from the registered filtering rules, so the toggles appear in:
 
 - the **Find Usages** tool window toolbar (funnel/filter actions)
 - the **Show Usages** popup (`Cmd+B` on a declaration), under the filter button
 
-Its state is persisted between sessions like the other usage filters. A keyboard shortcut can be assigned in
-**Settings | Keymap | Other | Show Preview Usages**.
+Their state is persisted between sessions like the other usage filters. A keyboard shortcut can be assigned to each of
+them in **Settings | Keymap | Other**.
 
 ## Building and running
 
@@ -56,7 +68,7 @@ The distribution to share with a zip file is produced by:
 
 ```bash
 ./gradlew buildPlugin
-# -> build/distributions/FilterOutPreviewUsages-<version>.zip
+# -> build/distributions/MoreUsageFilters-<version>.zip
 ```
 
 Install it in Android Studio via **Settings | Plugins | ⚙ | Install Plugin from Disk...**.
@@ -77,21 +89,26 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 
 ## Implementation notes
 
-| File                           | Role                                                                               |
-|--------------------------------|------------------------------------------------------------------------------------|
-| `PreviewAnnotationMatcher.kt`  | Decides whether an annotation short name marks a preview. Pure logic, unit tested. |
-| `PreviewUsageDetector.kt`      | Walks the PSI parents of a usage looking for an annotated declaration.             |
-| `PreviewUsageFilteringRule.kt` | The `UsageFilteringRule` and its `UsageFilteringRuleProvider` extension.           |
-| `META-INF/plugin.xml`          | Registers the extension and the `EmptyAction` used as the toggle presentation.     |
-| `icons/showPreviewUsages*.svg` | The toolbar icon: `@P` traced from JetBrains Mono.                                 |
-| `META-INF/pluginIcon.svg`      | The plugin icon: the same `@P` inside a "forbidden" sign.                          |
+| File                              | Role                                                                               |
+|-----------------------------------|------------------------------------------------------------------------------------|
+| `MoreUsageFiltersRuleProvider.kt` | Declares every rule, and the base class that reads the PSI behind a usage.         |
+| `PreviewAnnotationMatcher.kt`     | Decides whether an annotation short name marks a preview. Pure logic, unit tested. |
+| `PreviewUsageDetector.kt`         | Walks the PSI parents of a usage looking for an annotated declaration.             |
+| `CommentUsageDetector.kt`         | Walks the PSI parents of a usage looking for a comment.                            |
+| `*UsageFilteringRule.kt`          | One `UsageFilteringRule` per toggle.                                               |
+| `META-INF/plugin.xml`             | Registers the extension and the `EmptyAction`s used as the toggle presentations.   |
+| `icons/show*Usages*.svg`          | The toolbar icons: `@P` and `/*` traced from JetBrains Mono.                       |
+| `META-INF/pluginIcon.svg`         | The plugin icon: the same `@P` inside a "forbidden" sign.                          |
 
-### The icon
+### The icons
 
 The platform's *Show Import Statements* toggle is a serif `i`, echoing the `import` keyword as the editor renders it.
-The `Show Preview Usages` toggle follows the same idea one step further: it is a literal `@P`, so it echoes the
-`@Preview` annotation it filters out. The outlines are snapped to the pixel grid (9px cap height, 1px stem) so they stay
-crisp at 16x16, and a `_dark` variant is provided.
+The toggles here follow the same idea one step further: they are literally `@P` and `/*`, set in JetBrains Mono, the
+typeface the IDE uses in the editor, so each one echoes the syntax it filters out. The outlines are snapped to the pixel
+grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark` variant is provided for each.
+
+`/**` would be the exact KDoc opener, but it does not survive 16x16: three glyphs at the cap height of the other icons
+are 22px wide, and shrinking them to fit turns the asterisks into mush.
 
 The plugin icon reuses the same idea: the `@P` sits inside a prohibition sign (ISO 7010 proportions: a red annulus, a
 white field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar runs almost

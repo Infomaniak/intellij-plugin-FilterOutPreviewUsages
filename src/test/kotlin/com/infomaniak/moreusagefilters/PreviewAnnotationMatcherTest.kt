@@ -1,4 +1,4 @@
-package com.infomaniak.filteroutpreviewusages
+package com.infomaniak.moreusagefilters
 
 import kotlin.test.Test
 import kotlin.test.assertFalse

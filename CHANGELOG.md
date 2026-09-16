@@ -1,4 +1,16 @@
-# Filter Out Preview Usages Changelog
+# More Usage Filters Changelog
+
+## [1.1.0]
+
+### Added
+
+- `Show Comment Usages` toggle, hiding every usage located inside a comment: the `[Link]` references of a KDoc, the
+  `{@link ...}` of a JavaDoc, and the plain comments reported when Find Usages searches in comments and strings.
+- A `/*` toolbar icon for it, traced from JetBrains Mono like the `@P` one.
+
+### Changed
+
+- The plugin is now named `More Usage Filters`, since it is no longer only about previews.
 
 ## [1.0.0]
 
