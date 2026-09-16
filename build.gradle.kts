@@ -70,3 +70,9 @@ intellijPlatform {
 }
 
 
+
+tasks.test {
+    // CI runners have no display, and the platform disables icon rasterization as soon as the JVM is headless
+    // (com.intellij.ui.icons.isIconActivated). Running headless locally too keeps local results faithful to CI.
+    systemProperty("java.awt.headless", "true")
+}
