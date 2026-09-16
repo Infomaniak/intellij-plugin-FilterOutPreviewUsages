@@ -40,11 +40,8 @@ preview library is used.
 
 ## What is considered a comment
 
-Anything the PSI calls a comment, which is language agnostic:
-
-- KDoc, including the `[Link]` references that Find Usages reports
-- JavaDoc, including `{@link ...}`
-- block and line comments, which only show up when Find Usages is asked to search in comments and strings
+Anything the PSI calls a comment. In practice that means the `[Link]` references of a KDoc, since they are the only
+ones `Cmd+B` reports, the other comments only showing up when Find Usages is asked to search in comments and strings.
 
 ## Where the toggles show up
 

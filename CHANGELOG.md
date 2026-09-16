@@ -4,8 +4,8 @@
 
 ### Added
 
-- `Show Comment Usages` toggle, hiding every usage located inside a comment: the `[Link]` references of a KDoc, the
-  `{@link ...}` of a JavaDoc, and the plain comments reported when Find Usages searches in comments and strings.
+- `Show Comment Usages` toggle, hiding every usage located inside a comment, the `[Link]` references of a KDoc first
+  and foremost.
 - A `/*` toolbar icon for it, traced from JetBrains Mono like the `@P` one.
 
 ### Changed
