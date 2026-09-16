@@ -81,6 +81,8 @@ The `Show Preview Usages` toggle follows the same idea one step further: it is a
 crisp at 16x16, and a `_dark` variant is provided.
 
 The plugin icon reuses the same idea: the `@P` sits inside a prohibition sign (ISO 7010 proportions: a red annulus, a
-white field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar is stroked
-twice, once in white and once in red, so it keeps a clean relief where it crosses the glyph instead of swallowing it.
-The icon carries its own white field, so it reads on light and dark themes alike and needs no `_dark` variant.
+white field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar runs almost
+parallel to the stem of the `P`, so drawing it over the glyph swallowed the whole lower stem and left something that
+read as a `D`. It is drawn behind the glyph instead, and the glyph carries a thin white halo so it stays crisp where it
+crosses the red. The icon carries its own white field, so it reads on light and dark themes alike and needs no `_dark`
+variant.
