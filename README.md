@@ -62,6 +62,7 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 | `PreviewUsageFilteringRule.kt` | The `UsageFilteringRule` and its `UsageFilteringRuleProvider` extension.           |
 | `META-INF/plugin.xml`          | Registers the extension and the `EmptyAction` used as the toggle presentation.     |
 | `icons/showPreviewUsages*.svg` | The toolbar icon: `@P` traced from JetBrains Mono.                                 |
+| `META-INF/pluginIcon.svg`      | The plugin icon: the same `@P` inside a "forbidden" sign.                          |
 
 ### The icon
 
@@ -69,3 +70,8 @@ The platform's *Show Import Statements* toggle is a serif `i`, echoing the `impo
 `Show Preview Usages` toggle follows the same idea one step further: it is a literal `@P`, so it echoes the `@Preview` annotation
 it filters out. The outlines are snapped to the pixel grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark`
 variant is provided.
+
+The plugin icon reuses the same idea: the `@P` sits inside a prohibition sign (ISO 7010 proportions: a red annulus, a white
+field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar is stroked twice, once in
+white and once in red, so it keeps a clean relief where it crosses the glyph instead of swallowing it. The icon carries its own
+white field, so it reads on light and dark themes alike and needs no `_dark` variant.
