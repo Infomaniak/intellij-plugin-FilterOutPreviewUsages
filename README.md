@@ -113,5 +113,6 @@ are 22px wide, and shrinking them to fit turns the asterisks into mush.
 The plugin icon steps away from the toolbar glyphs, because it has to stand for the plugin as a whole rather than for
 one filter: it is the universal filter funnel with a `+` badge, for "more usage filters". The walls are bowed and every
 corner, join and cap is rounded, so it stays soft instead of looking like a cut out triangle. It is hand drawn like the
-toolbar icons, so the plugin carries no third party icon licence, and its single red works on light and dark themes
-alike, so it needs no `_dark` variant.
+toolbar icons, so the plugin carries no third party icon licence. The bowl is filled white rather than left hollow, so
+the funnel keeps a body on dark themes and echoes the white of the badge, which also means the icon looks the same
+whatever the theme and needs no `_dark` variant.

@@ -3,12 +3,13 @@
      funnel with a badge saying there is now more of them. The walls of the funnel are bowed and every corner,
      join and cap is rounded, so it stays soft rather than looking like a cut out triangle.
      The mark is entirely hand drawn, like the two toolbar icons, so the plugin carries no third party icon
-     licence. The single red works on both light and dark themes, so no _dark variant is needed.
+     licence. The bowl is filled white rather than left hollow, so the funnel keeps a body on dark themes and
+     echoes the white of the badge, and the icon looks the same whatever the theme: no _dark variant is needed.
      The whole drawing is nudged by (-0.35, -0.85) to sit optically centred once the badge is taken in. -->
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(-0.35 -0.85)">
     <path d="M5 7 H31 Q26 12 20.5 20.5 V30 Q18 32.4 15.5 30 V20.5 Q10 12 5 7 Z"
-          stroke="#DB3B4B" stroke-width="3.2" stroke-linejoin="round" fill="none"/>
+          stroke="#DB3B4B" stroke-width="3.2" stroke-linejoin="round" fill="#FFFFFF"/>
     <circle cx="31" cy="30" r="6.3" fill="#DB3B4B"/>
     <path d="M31 26.8 V33.2 M27.8 30 H34.2" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
   </g>
