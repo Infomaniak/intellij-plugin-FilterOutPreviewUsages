@@ -8,10 +8,10 @@
         Two extra filter toggles for the Find Usages tool window and the Show Usages popup
         (<code>Cmd+B</code> / <code>Ctrl+B</code>), next to the built-in <i>Show Import Statements</i> and
         <i>Show Generated Code</i> ones.<br/><br/>
-        <b>Show Preview Usages</b> &mdash; turn it off to hide every usage located inside a Jetpack Compose preview,
+        <b>Show Preview Usages</b>: turn it off to hide every usage located inside a Jetpack Compose preview,
         that is a declaration annotated with <code>@Preview</code>, <code>@PreviewScreenSizes</code> or any custom
         multipreview annotation. Handy on a Composable that is, of course, always used by its own preview.<br/><br/>
-        <b>Show Comment Usages</b> &mdash; turn it off to hide every usage located inside a comment, the
+        <b>Show Comment Usages</b>: turn it off to hide every usage located inside a comment, the
         <code>[Link]</code> references of a KDoc first and foremost.<br/><br/>
         Supports both the K1 and the K2 Kotlin modes, and needs no configuration.
     ]]></description>
