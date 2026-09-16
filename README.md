@@ -13,16 +13,12 @@ by its own `@Preview` and mentioned in the KDoc of half the file.
 
 ## In action
 
-`SuperCoolComponent` has four usages: two real ones in `MyFavoriteScreen`, and two that only exist to feed its
-`@Preview` functions.
+`SuperCoolComponent` has five usages: two real ones in `MyFavoriteScreen`, two that only exist to feed its `@Preview`
+functions, and one `[SuperCoolComponent]` link in its own KDoc. Turning both toggles off leaves the two that matter.
 
-<img src="images/preview-no-popup.png" width="450" alt="A Composable used twice for real and twice by its previews"/>
-
-Toggling `Show Preview Usages` off drops the popup from four usages to the two that actually matter:
-
-| Toggle on                                                 | Toggle off                                                        |
-|-----------------------------------------------------------|-------------------------------------------------------------------|
-| ![All four usages are listed](images/preview-visible.png) | ![Only the two real usages are listed](images/preview-hidden.png) |
+| Both toggles on                                             | Both toggles off                                                 |
+|-------------------------------------------------------------|------------------------------------------------------------------|
+| ![The five usages are listed](images/all-usage-visible.png) | ![Only the two real usages are left](images/filtered-usages.png) |
 
 ## What is considered a preview
 
