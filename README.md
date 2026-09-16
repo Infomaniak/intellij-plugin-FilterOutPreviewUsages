@@ -98,7 +98,7 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 | `*UsageFilteringRule.kt`          | One `UsageFilteringRule` per toggle.                                               |
 | `META-INF/plugin.xml`             | Registers the extension and the `EmptyAction`s used as the toggle presentations.   |
 | `icons/show*Usages*.svg`          | The toolbar icons: `@P` and `/*` traced from JetBrains Mono.                       |
-| `META-INF/pluginIcon.svg`         | The plugin icon: the same `@P` inside a "forbidden" sign.                          |
+| `META-INF/pluginIcon.svg`         | The plugin icon: `@P` and `/*` in the two halves of a "forbidden" sign.             |
 
 ### The icons
 
@@ -110,9 +110,8 @@ grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark` varia
 `/**` would be the exact KDoc opener, but it does not survive 16x16: three glyphs at the cap height of the other icons
 are 22px wide, and shrinking them to fit turns the asterisks into mush.
 
-The plugin icon reuses the same idea: the `@P` sits inside a prohibition sign (ISO 7010 proportions: a red annulus, a
-white field and a 45 degree bar descending to the right), which reads as "no @Preview" at a glance. The bar runs almost
-parallel to the stem of the `P`, so drawing it over the glyph swallowed the whole lower stem and left something that
-read as a `D`. It is drawn behind the glyph instead, and the glyph carries a thin white halo so it stays crisp where it
-crosses the red. The icon carries its own white field, so it reads on light and dark themes alike and needs no `_dark`
-variant.
+The plugin icon reuses the same idea, for both filters at once: the 45 degree bar of the prohibition sign (ISO 7010
+proportions: a red annulus, a white field and a bar descending to the right) splits the field in two halves, so `@P`
+gets the upper right one and `/*` the lower left one, and the whole thing reads as "no @Preview, no comments" at a
+glance. The glyphs are sized as large as they can be while staying clear of the bar and of the annulus. The icon
+carries its own white field, so it reads on light and dark themes alike and needs no `_dark` variant.
