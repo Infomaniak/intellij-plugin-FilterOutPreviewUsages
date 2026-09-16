@@ -39,7 +39,7 @@ Its state is persisted between sessions like the other usage filters. A keyboard
 ./gradlew verifyPlugin   # run the IntelliJ Plugin Verifier
 ```
 
-The distribution to share with your colleagues is produced by:
+The distribution to share with a zip file is produced by:
 
 ```bash
 ./gradlew buildPlugin
@@ -55,9 +55,17 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 
 ## Implementation notes
 
-| File | Role |
-|------|------|
-| `PreviewAnnotationMatcher.kt` | Decides whether an annotation short name marks a preview. Pure logic, unit tested. |
-| `PreviewUsageDetector.kt` | Walks the PSI parents of a usage looking for an annotated declaration. |
-| `PreviewUsageFilteringRule.kt` | The `UsageFilteringRule` and its `UsageFilteringRuleProvider` extension. |
-| `META-INF/plugin.xml` | Registers the extension and the `EmptyAction` used as the toggle presentation. |
+| File                           | Role                                                                               |
+|--------------------------------|------------------------------------------------------------------------------------|
+| `PreviewAnnotationMatcher.kt`  | Decides whether an annotation short name marks a preview. Pure logic, unit tested. |
+| `PreviewUsageDetector.kt`      | Walks the PSI parents of a usage looking for an annotated declaration.             |
+| `PreviewUsageFilteringRule.kt` | The `UsageFilteringRule` and its `UsageFilteringRuleProvider` extension.           |
+| `META-INF/plugin.xml`          | Registers the extension and the `EmptyAction` used as the toggle presentation.     |
+| `icons/showPreviewUsages*.svg` | The toolbar icon: `@P` traced from JetBrains Mono.                                 |
+
+### The icon
+
+The platform's *Show Import Statements* toggle is a serif `i`, echoing the `import` keyword as the editor renders it. The
+`Show Preview Usages` toggle follows the same idea one step further: it is a literal `@P`, so it echoes the `@Preview` annotation
+it filters out. The outlines are snapped to the pixel grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark`
+variant is provided.

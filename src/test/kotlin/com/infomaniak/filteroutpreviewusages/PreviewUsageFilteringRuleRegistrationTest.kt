@@ -26,7 +26,11 @@ class PreviewUsageFilteringRuleRegistrationTest : BasePlatformTestCase() {
         assertNotNull("The ${PreviewUsageFilteringRule.ACTION_ID} action is not registered", action)
         assertInstanceOf(action, EmptyAction::class.java)
         assertEquals("Show Preview Usages", action.templatePresentation.text)
-        assertNotNull(action.templatePresentation.icon)
+
+        val icon = action.templatePresentation.icon
+        assertNotNull("The @P icon failed to load", icon)
+        assertEquals(16, icon!!.iconWidth)
+        assertEquals(16, icon.iconHeight)
     }
 
     fun `test the rule hides a usage located in a preview function`() {

@@ -33,7 +33,7 @@
              see com.intellij.usages.impl.UsageFilteringRuleActions. It must be an EmptyAction. -->
         <action id="FilterOutPreviewUsages.ShowPreviewUsages"
                 class="com.intellij.openapi.actionSystem.EmptyAction"
-                icon="com.intellij.icons.AllIcons.Actions.Preview">
+                icon="/icons/showPreviewUsages.svg">
             <!-- Only there so that a shortcut can be assigned from Settings | Keymap. -->
             <add-to-group group-id="UsageFilteringActionGroup" anchor="last"/>
         </action>
