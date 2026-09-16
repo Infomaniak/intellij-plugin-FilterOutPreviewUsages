@@ -1,15 +1,15 @@
-<!-- Plugin icon: the two things the plugin hides, forbidden.
-     "@P" and "/*" are traced from JetBrains Mono Bold (SIL Open Font License 1.1), the typeface the IDE uses
-     in the editor, so each one echoes the syntax of the filter it stands for, exactly like the two toolbar
-     icons. The sign follows ISO 7010 proportions: a red annulus, a white field and a 45 degree bar descending
-     to the right. The bar splits the field in two halves, which is what gives each filter its own side and
-     keeps the sign readable: "@P" sits in the upper right half, "/*" in the lower left one.
-     The glyph size is the largest that keeps both runs clear of the bar and of the annulus.
-     The icon carries its own white field, so it reads on both light and dark themes and needs no _dark variant. -->
+<!-- Plugin icon: a funnel with a "+" badge, for "more usage filters".
+     The plugin adds toggles to the filter toolbar of the usages views, so the icon is the universal filter
+     funnel with a badge saying there is now more of them. The walls of the funnel are bowed and every corner,
+     join and cap is rounded, so it stays soft rather than looking like a cut out triangle.
+     The mark is entirely hand drawn, like the two toolbar icons, so the plugin carries no third party icon
+     licence. The single red works on both light and dark themes, so no _dark variant is needed.
+     The whole drawing is nudged by (-0.35, -0.85) to sit optically centred once the badge is taken in. -->
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="20" cy="20" r="16" fill="#FFFFFF"/>
-  <circle cx="20" cy="20" r="18" stroke="#DB3B4B" stroke-width="4"/>
-  <line x1="8.69" y1="8.69" x2="31.31" y2="31.31" stroke="#DB3B4B" stroke-width="4"/>
-  <path d="M23.90 18.80Q23.00 18.80 22.34 18.45Q21.69 18.09 21.33 17.44Q20.98 16.79 20.98 15.89V12.50Q20.98 11.60 21.32 10.95Q21.66 10.30 22.29 9.95Q22.92 9.60 23.80 9.60Q24.60 9.60 25.17 9.91Q25.75 10.21 26.06 10.76Q26.37 11.30 26.37 12.02V14.72Q26.37 15.52 25.90 15.99Q25.44 16.45 24.65 16.45Q23.87 16.45 23.41 16.00Q22.96 15.54 22.96 14.77V13.70Q22.96 12.95 23.31 12.52Q23.66 12.09 24.27 12.09Q24.68 12.09 24.95 12.26Q25.22 12.43 25.31 12.73H25.33V12.02Q25.33 11.29 24.93 10.90Q24.53 10.50 23.76 10.50Q22.94 10.50 22.48 11.03Q22.02 11.55 22.02 12.50V15.89Q22.02 16.82 22.51 17.34Q23.01 17.85 23.90 17.85H25.00V18.80ZM24.65 15.62Q24.98 15.62 25.15 15.40Q25.33 15.17 25.33 14.77V13.70Q25.33 13.29 25.15 13.07Q24.98 12.85 24.65 12.85Q24.32 12.85 24.14 13.08Q23.97 13.30 23.97 13.70V14.77Q23.97 15.17 24.14 15.40Q24.32 15.62 24.65 15.62Z M27.42 17.00V9.70H29.85Q30.58 9.70 31.12 9.98Q31.67 10.26 31.97 10.77Q32.27 11.27 32.27 11.95Q32.27 12.63 31.97 13.14Q31.67 13.64 31.12 13.92Q30.58 14.20 29.85 14.20H28.67V17.00ZM28.67 13.10H29.85Q30.38 13.10 30.69 12.78Q31.00 12.46 31.00 11.95Q31.00 11.44 30.69 11.12Q30.38 10.80 29.85 10.80H28.67Z" fill="#2B2D30"/>
-  <path d="M9.47 29.88 12.97 20.48H14.27L10.77 29.88Z M16.70 27.80 15.87 27.21 16.57 26.22Q16.71 26.02 16.89 25.83Q17.06 25.65 17.26 25.48Q16.73 25.43 16.32 25.28L15.19 24.86L15.54 23.91L16.67 24.32Q17.07 24.47 17.50 24.75Q17.44 24.52 17.40 24.28Q17.36 24.05 17.36 23.79V22.58H18.38V23.79Q18.38 24.05 18.34 24.28Q18.30 24.52 18.23 24.75Q18.67 24.47 19.07 24.32L20.20 23.91L20.55 24.86L19.42 25.28Q19.01 25.43 18.48 25.48Q18.68 25.65 18.86 25.83Q19.03 26.02 19.17 26.22L19.87 27.21L19.04 27.80L18.33 26.81Q18.19 26.61 18.08 26.38Q17.96 26.16 17.87 25.92Q17.78 26.15 17.67 26.38Q17.55 26.61 17.41 26.81Z" fill="#2B2D30"/>
+  <g transform="translate(-0.35 -0.85)">
+    <path d="M5 7 H31 Q26 12 20.5 20.5 V30 Q18 32.4 15.5 30 V20.5 Q10 12 5 7 Z"
+          stroke="#DB3B4B" stroke-width="3.2" stroke-linejoin="round" fill="none"/>
+    <circle cx="31" cy="30" r="6.3" fill="#DB3B4B"/>
+    <path d="M31 26.8 V33.2 M27.8 30 H34.2" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
 </svg>

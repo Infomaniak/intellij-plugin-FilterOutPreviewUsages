@@ -98,7 +98,7 @@ Android Studio 2025.1 (Narwhal) and later. The Kotlin plugin is required and is 
 | `*UsageFilteringRule.kt`          | One `UsageFilteringRule` per toggle.                                               |
 | `META-INF/plugin.xml`             | Registers the extension and the `EmptyAction`s used as the toggle presentations.   |
 | `icons/show*Usages*.svg`          | The toolbar icons: `@P` and `/*` traced from JetBrains Mono.                       |
-| `META-INF/pluginIcon.svg`         | The plugin icon: `@P` and `/*` in the two halves of a "forbidden" sign.             |
+| `META-INF/pluginIcon.svg`         | The plugin icon: a filter funnel with a `+` badge.                                 |
 
 ### The icons
 
@@ -110,8 +110,8 @@ grid (9px cap height, 1px stem) so they stay crisp at 16x16, and a `_dark` varia
 `/**` would be the exact KDoc opener, but it does not survive 16x16: three glyphs at the cap height of the other icons
 are 22px wide, and shrinking them to fit turns the asterisks into mush.
 
-The plugin icon reuses the same idea, for both filters at once: the 45 degree bar of the prohibition sign (ISO 7010
-proportions: a red annulus, a white field and a bar descending to the right) splits the field in two halves, so `@P`
-gets the upper right one and `/*` the lower left one, and the whole thing reads as "no @Preview, no comments" at a
-glance. The glyphs are sized as large as they can be while staying clear of the bar and of the annulus. The icon
-carries its own white field, so it reads on light and dark themes alike and needs no `_dark` variant.
+The plugin icon steps away from the toolbar glyphs, because it has to stand for the plugin as a whole rather than for
+one filter: it is the universal filter funnel with a `+` badge, for "more usage filters". The walls are bowed and every
+corner, join and cap is rounded, so it stays soft instead of looking like a cut out triangle. It is hand drawn like the
+toolbar icons, so the plugin carries no third party icon licence, and its single red works on light and dark themes
+alike, so it needs no `_dark` variant.

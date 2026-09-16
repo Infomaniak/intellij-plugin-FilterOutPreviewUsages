@@ -11,8 +11,8 @@
 ### Changed
 
 - The plugin is now named `More Usage Filters`, since it is no longer only about previews.
-- The plugin icon now stands for both filters: the bar of the "forbidden" sign splits it in two halves, `@P` in
-  the upper right one and `/*` in the lower left one.
+- The plugin icon is now a filter funnel with a `+` badge, which fits the new name better than the previous
+  "forbidden" sign, that only stood for previews.
 
 ## [1.0.0]
 
