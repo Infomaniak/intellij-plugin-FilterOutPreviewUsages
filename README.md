@@ -11,6 +11,8 @@ built-in *Show Import Statements* and *Show Generated Code* ones:
 Together they make `Cmd+B` / `Ctrl+B` (and Find Usages) actually useful on a Composable that is, of course, always used
 by its own `@Preview` and mentioned in the KDoc of half the file.
 
+Available on the [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/34308-more-usage-filters)
+
 ## In action
 
 `SuperCoolComponent` has five usages: two real ones in `MyFavoriteScreen`, two that only exist to feed its `@Preview`
